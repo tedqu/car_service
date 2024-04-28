@@ -1,0 +1,7 @@
+Flask
+Flask-Paginate
+Flask-SQLAlchemy
+pymysql
+werkzeug
+cryptography
+python-dotenv

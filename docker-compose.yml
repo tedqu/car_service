@@ -1,0 +1,42 @@
+version: '3.8'
+services:
+  main-car:
+    build: .
+    ports:
+      - "8000:5000"
+    volumes:
+      - .:/app
+    environment:
+      - FLASK_ENV=development
+      - FLASK_APP=app
+      # - DATABASE_URL=mysql+pymysql://{MYSQL_USER}:{MYSQL_DATABASE}@mysql-car/flask_db
+      - DATABASE_URL=mysql+pymysql://sawyer:Welcome#1@mysql-car:3306/flask_db
+  mysql-car:
+    #image: percona:8.0.27-18
+    image: percona/percona-server:8.0.35-aarch64
+    restart: always
+    #image: mysql:5.7
+    #platform: linux/amd64  # for mac
+    volumes:
+      - /Users/ted/Documents/ted/project/docker-data/car-data:/var/lib/mysql
+      - /Users/ted/Documents/ted/project/docker-data/car-init:/docker-entrypoint-initdb.d/
+      # - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_HOST: '%'
+#      MYSQL_DATABASE: ${MYSQL_DATABASE}
+#      MYSQL_USER: ${MYSQL_USER}
+#      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+#      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_ROOT_PASSWORD: 'Kidx#2022'
+      MYSQL_USER: 'sawyer'
+      MYSQL_PASSWORD: 'Welcome#1'
+      MYSQL_DATABASE: 'flask_db'
+    command: [ 'mysqld', '--sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci' ]
+      #    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    security_opt:
+        - 'seccomp:unconfined'
+    ports:
+      - "3306:3306"
+
+#volumes:
+#  mysql_data:
