@@ -1,2 +1,6 @@
 .env
 venv/
+.python
+images/
+__pycache__/
+.idea/
